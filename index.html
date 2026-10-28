@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Otra Pasión | Grand Line Football</title>
+  <style>
+    :root {
+      --ink: #172b3a; --muted: #647887; --paper: #fffdf7; --cream: #f5ead1;
+      --sea: #0c5261; --sea-dark: #083744; --green: #2b8a57; --gold: #e8ad45;
+      --red: #bd4d43; --line: #dce5df; --shadow: 0 16px 40px #0737441c;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink); background: #eaf3ef;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 80% 0, #fff8df 0 12%, transparent 36%), #eaf3ef; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .app { display: grid; grid-template-columns: 252px 1fr; min-height: 100vh; }
+    aside { padding: 26px 18px; color: #fff; background: linear-gradient(165deg, var(--sea-dark), var(--sea) 65%, #187060); }
+    .brand { display: flex; gap: 12px; align-items: center; margin-bottom: 30px; }
+    .brand-mark { display: grid; place-items: center; width: 44px; height: 44px; border: 2px solid var(--gold); border-radius: 50%; background: #07333f; font-size: 1.4rem; }
+    .brand h1 { margin: 0; font-size: 1.05rem; line-height: 1.1; letter-spacing: .04em; }
+    .brand small { color: #c6e7dc; }
+    nav { display: grid; gap: 7px; }
+    .nav-button { padding: 12px 14px; border: 1px solid transparent; border-radius: 11px; color: #d8eee8; text-align: left; background: transparent; }
+    .nav-button:hover, .nav-button.active { border-color: #ffffff2e; background: #ffffff18; color: #fff; }
+    .side-note { position: absolute; bottom: 24px; width: 210px; padding: 14px; border: 1px solid #ffffff2e; border-radius: 14px; color: #d8eee8; font-size: .82rem; }
+    main { width: min(1180px, 100%); padding: 28px clamp(18px, 4vw, 52px); margin: 0 auto; }
+    .topbar { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-bottom: 28px; }
+    .eyebrow { margin: 0 0 5px; color: var(--green); font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h2 { margin: 0; font-size: clamp(1.55rem, 3vw, 2.2rem); }
+    .search { width: min(290px, 42vw); padding: 11px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .view { display: none; animation: appear .2s ease-out; } .view.active { display: block; }
+    .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; padding: 28px; border-radius: 22px; color: #fff; background: linear-gradient(120deg, #0b4855, #217b69); box-shadow: var(--shadow); }
+    .hero h3 { margin: 0 0 8px; font-size: clamp(1.5rem, 3vw, 2.4rem); } .hero p { color: #d8eee8; }
+    .map { position: relative; min-height: 145px; overflow: hidden; border: 1px solid #ffffff32; border-radius: 16px; background: #ffffff0e; }
+    .map:before { content: ""; position: absolute; inset: 18% 8%; border: 2px dashed #e8ad4599; border-radius: 48% 57% 43% 55%; transform: rotate(-12deg); }
+    .island { position: absolute; display: grid; place-items: center; width: 44px; height: 44px; border: 3px solid #fff; border-radius: 50%; background: var(--gold); color: var(--sea-dark); font-weight: 900; box-shadow: 0 0 0 5px #e8ad4530; }
+    .island.one { top: 24px; left: 18%; } .island.two { top: 71px; left: 48%; } .island.three { top: 28px; right: 12%; }
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0; }
+    .metric, .card { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: 0 6px 20px #173b2a0a; }
+    .metric strong { display: block; margin-top: 7px; font-size: 1.9rem; color: var(--sea); } .metric span { color: var(--muted); font-size: .84rem; }
+    .section-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; } .card h3 { margin: 0 0 14px; }
+    .quick-actions { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
+    .action, .primary { padding: 11px 14px; border: 0; border-radius: 10px; color: #fff; background: var(--sea); font-weight: 750; } .action:hover, .primary:hover { background: var(--sea-dark); }
+    .ghost { padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px; color: var(--sea); background: #fff; font-weight: 700; }
+    .toolbar { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 14px; } .toolbar h3 { margin: 0; }
+    .table-wrap { overflow-x: auto; } table { width: 100%; border-collapse: collapse; } th, td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; } th { color: var(--muted); font-size: .78rem; text-transform: uppercase; }
+    .badge { display: inline-block; padding: 4px 9px; border-radius: 999px; background: #e0f2e7; color: #17643d; font-size: .78rem; font-weight: 800; }
+    .empty { padding: 30px; color: var(--muted); text-align: center; }
+    dialog { width: min(560px, calc(100% - 24px)); padding: 0; border: 0; border-radius: 18px; box-shadow: 0 20px 70px #0005; } dialog::backdrop { background: #07374499; }
+    .dialog-body { padding: 24px; } .dialog-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; } .dialog-head h3 { margin: 0; }
+    .icon-button { border: 0; background: transparent; font-size: 1.35rem; color: var(--muted); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; } .field { display: grid; gap: 5px; color: var(--muted); font-size: .84rem; font-weight: 700; } .field.full { grid-column: 1 / -1; }
+    .field input, .field select, .field textarea { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: #fff; } .field textarea { min-height: 75px; resize: vertical; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+    .toast { position: fixed; right: 20px; bottom: 20px; max-width: 320px; padding: 13px 16px; border-radius: 10px; color: #fff; background: var(--sea-dark); box-shadow: var(--shadow); transform: translateY(120px); transition: transform .2s; } .toast.show { transform: translateY(0); }
+    @keyframes appear { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    @media (max-width: 820px) { .app { grid-template-columns: 1fr; } aside { padding: 16px; } .brand { margin-bottom: 15px; } nav { display: flex; overflow-x: auto; } .nav-button { white-space: nowrap; } .side-note { display: none; } .hero, .section-grid { grid-template-columns: 1fr; } .metrics { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .topbar { align-items: flex-start; flex-direction: column; } .search { width: 100%; } .form-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } .metrics { gap: 8px; } .metric { padding: 13px; } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand"><div class="brand-mark">⚽</div><div><h1>LA OTRA PASIÓN</h1><small>Grand Line Football</small></div></div>
+      <nav aria-label="Navegación principal">
+        <button class="nav-button active" data-view="dashboard">🧭 Mi aventura</button>
+        <button class="nav-button" data-view="players">👥 Jugadores</button>
+        <button class="nav-button" data-view="attendance">✅ Asistencia</button>
+        <button class="nav-button" data-view="matches">🏆 Partidos</button>
+      </nav>
+      <div class="side-note"><strong>FIRMES EN EL PROCESO</strong><br>Organiza, mejora y haz crecer tu pasión por el fútbol formativo.</div>
+    </aside>
+    <main>
+      <header class="topbar"><div><p class="eyebrow">Centro de operaciones · Collacoto</p><h2 id="page-title">Mi aventura</h2></div><input class="search" id="global-search" type="search" placeholder="Buscar en la tripulación..." aria-label="Buscar"></header>
+
+      <section class="view active" id="dashboard">
+        <div class="hero"><div><p class="eyebrow" style="color:#e8ad45">Rumbo a la próxima isla</p><h3>Tu academia, siempre en movimiento.</h3><p>Centraliza tus jugadores, entrenamientos y partidos en un solo lugar.</p><button class="primary" data-go="players">Gestionar tripulación</button></div><div class="map" aria-label="Mapa de progreso"><div class="island one">1</div><div class="island two">2</div><div class="island three">3</div></div></div>
+        <div class="metrics"><div class="metric"><span>Jugadores registrados</span><strong id="metric-players">0</strong></div><div class="metric"><span>Asistencia esta semana</span><strong id="metric-attendance">0%</strong></div><div class="metric"><span>Partidos próximos</span><strong id="metric-matches">0</strong></div><div class="metric"><span>Nivel de la tripulación</span><strong>1</strong></div></div>
+        <div class="section-grid"><div class="card"><h3>Próximos partidos</h3><div id="dashboard-matches"></div></div><div class="card"><h3>Accesos rápidos</h3><div class="quick-actions"><button class="action" data-go="players">+ Jugador</button><button class="action" data-go="attendance">✓ Asistencia</button><button class="action" data-go="matches">+ Partido</button><button class="action" id="export-data">⇩ Copia de datos</button></div></div></div>
+      </section>
+
+      <section class="view" id="players"><div class="card"><div class="toolbar"><h3>Tripulación de la academia</h3><button class="primary" id="add-player">+ Registrar jugador</button></div><div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Categoría</th><th>Posición</th><th>Contacto</th><th></th></tr></thead><tbody id="players-table"></tbody></table></div></div></section>
+      <section class="view" id="attendance"><div class="card"><div class="toolbar"><h3>Control de asistencia</h3><button class="primary" id="add-attendance">+ Registrar jornada</button></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Sesión</th><th>Categoría</th><th>Presentes</th><th>Estado</th></tr></thead><tbody id="attendance-table"></tbody></table></div></div></section>
+      <section class="view" id="matches"><div class="card"><div class="toolbar"><h3>Calendario de partidos</h3><button class="primary" id="add-match">+ Programar partido</button></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Torneo</th><th>Enfrentamiento</th><th>Categoría</th><th>Estado</th><th></th></tr></thead><tbody id="matches-table"></tbody></table></div></div></section>
+    </main>
+  </div>
+  <dialog id="player-dialog"><form class="dialog-body" id="player-form"><div class="dialog-head"><h3>Registrar jugador</h3><button class="icon-button" type="button" data-close>×</button></div><div class="form-grid"><label class="field">Nombre completo<input name="name" required maxlength="80"></label><label class="field">Categoría<select name="category"><option>Sub 9</option><option>Sub 10</option><option>Sub 11</option><option>Sub 12</option><option>Sub 14</option><option>Sub 15</option></select></label><label class="field">Posición<input name="position" placeholder="Ej. defensa" required></label><label class="field">Teléfono del representante<input name="phone" type="tel"></label><label class="field full">Observaciones<textarea name="notes"></textarea></label></div><div class="dialog-actions"><button class="ghost" type="button" data-close>Cancelar</button><button class="primary">Guardar jugador</button></div></form></dialog>
+  <dialog id="attendance-dialog"><form class="dialog-body" id="attendance-form"><div class="dialog-head"><h3>Registrar jornada</h3><button class="icon-button" type="button" data-close>×</button></div><div class="form-grid"><label class="field">Fecha<input name="date" type="date" required></label><label class="field">Sesión<input name="session" placeholder="Entrenamiento técnico" required></label><label class="field">Categoría<select name="category"><option>Sub 9</option><option>Sub 10</option><option>Sub 11</option><option>Sub 12</option><option>Sub 14</option><option>Sub 15</option></select></label><label class="field">Presentes<input name="present" type="number" min="0" required></label><label class="field">Total convocados<input name="total" type="number" min="1" required></label></div><div class="dialog-actions"><button class="ghost" type="button" data-close>Cancelar</button><button class="primary">Guardar jornada</button></div></form></dialog>
+  <dialog id="match-dialog"><form class="dialog-body" id="match-form"><div class="dialog-head"><h3>Programar partido</h3><button class="icon-button" type="button" data-close>×</button></div><div class="form-grid"><label class="field">Fecha<input name="date" type="date" required></label><label class="field">Torneo<input name="tournament" required></label><label class="field">Rival<input name="opponent" required></label><label class="field">Categoría<select name="category"><option>Sub 9</option><option>Sub 10</option><option>Sub 11</option><option>Sub 12</option><option>Sub 14</option><option>Sub 15</option></select></label><label class="field">Lugar<input name="venue" placeholder="Cancha o estadio" required></label><label class="field">Estado<select name="status"><option>Programado</option><option>En juego</option><option>Finalizado</option><option>Suspendido</option></select></label></div><div class="dialog-actions"><button class="ghost" type="button" data-close>Cancelar</button><button class="primary">Guardar partido</button></div></form></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const STORE = "grand-line-football-v1";
+    const initial = { players: [], attendance: [], matches: [] };
+    let data = load();
+    const $ = (selector) => document.querySelector(selector);
+    const today = () => new Date().toISOString().slice(0, 10);
+    function load() { try { return { ...initial, ...JSON.parse(localStorage.getItem(STORE) || "{}") }; } catch (error) { console.error("No se pudieron leer los datos locales.", error); return { ...initial }; } }
+    function save() { localStorage.setItem(STORE, JSON.stringify(data)); render(); }
+    function escapeHTML(value) { return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char])); }
+    function notify(message) { const toast = $("#toast"); toast.textContent = message; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2600); }
+    function openDialog(id) { const dialog = $("#" + id); dialog.showModal(); const date = dialog.querySelector('[name="date"]'); if (date && !date.value) date.value = today(); }
+    function render() {
+      $("#metric-players").textContent = data.players.length;
+      $("#metric-matches").textContent = data.matches.filter((match) => match.status === "Programado").length;
+      const attendance = data.attendance.reduce((sum, item) => sum + (item.total ? item.present / item.total : 0), 0);
+      $("#metric-attendance").textContent = data.attendance.length ? Math.round(attendance / data.attendance.length * 100) + "%" : "0%";
+      const term = $("#global-search").value.toLowerCase();
+      const players = data.players.filter((item) => `${item.name} ${item.category} ${item.position}`.toLowerCase().includes(term));
+      $("#players-table").innerHTML = players.length ? players.map((item) => `<tr><td><strong>${escapeHTML(item.name)}</strong></td><td><span class="badge">${escapeHTML(item.category)}</span></td><td>${escapeHTML(item.position)}</td><td>${escapeHTML(item.phone || "—")}</td><td><button class="ghost delete-player" data-id="${item.id}">Eliminar</button></td></tr>`).join("") : `<tr><td colspan="5" class="empty">Aún no hay jugadores registrados.</td></tr>`;
+      const attendanceRows = data.attendance.filter((item) => `${item.session} ${item.category} ${item.date}`.toLowerCase().includes(term));
+      $("#attendance-table").innerHTML = attendanceRows.length ? attendanceRows.map((item) => `<tr><td>${escapeHTML(item.date)}</td><td>${escapeHTML(item.session)}</td><td>${escapeHTML(item.category)}</td><td>${item.present}/${item.total}</td><td><span class="badge">${Math.round(item.present / item.total * 100)}% presentes</span></td></tr>`).join("") : `<tr><td colspan="5" class="empty">Registra la primera jornada de entrenamiento.</td></tr>`;
+      const matches = data.matches.filter((item) => `${item.tournament} ${item.opponent} ${item.category} ${item.date}`.toLowerCase().includes(term)).sort((a, b) => a.date.localeCompare(b.date));
+      $("#matches-table").innerHTML = matches.length ? matches.map((item) => `<tr><td>${escapeHTML(item.date)}</td><td>${escapeHTML(item.tournament)}</td><td>La Otra Pasión vs. <strong>${escapeHTML(item.opponent)}</strong><br><small>${escapeHTML(item.venue)}</small></td><td>${escapeHTML(item.category)}</td><td><span class="badge">${escapeHTML(item.status)}</span></td><td><button class="ghost delete-match" data-id="${item.id}">Eliminar</button></td></tr>`).join("") : `<tr><td colspan="6" class="empty">Programa tu próximo desafío.</td></tr>`;
+      const next = matches.slice(0, 3); $("#dashboard-matches").innerHTML = next.length ? next.map((item) => `<p><strong>${escapeHTML(item.date)}</strong> · ${escapeHTML(item.opponent)} <span class="badge">${escapeHTML(item.category)}</span></p>`).join("") : `<p class="empty">No hay partidos programados todavía.</p>`;
+    }
+    function formData(form) { return Object.fromEntries(new FormData(form)); }
+    document.querySelectorAll(".nav-button").forEach((button) => button.addEventListener("click", () => { document.querySelectorAll(".nav-button").forEach((item) => item.classList.remove("active")); button.classList.add("active"); document.querySelectorAll(".view").forEach((view) => view.classList.remove("active")); $("#" + button.dataset.view).classList.add("active"); $("#page-title").textContent = button.textContent.replace(/^[^\s]+\s/, ""); }));
+    document.querySelectorAll("[data-go]").forEach((button) => button.addEventListener("click", () => document.querySelector(`[data-view="${button.dataset.go}"]`).click()));
+    $("#global-search").addEventListener("input", render);
+    $("#add-player").addEventListener("click", () => openDialog("player-dialog")); $("#add-attendance").addEventListener("click", () => openDialog("attendance-dialog")); $("#add-match").addEventListener("click", () => openDialog("match-dialog"));
+    document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => button.closest("dialog").close()));
+    $("#player-form").addEventListener("submit", (event) => { event.preventDefault(); const item = formData(event.target); if (data.players.some((player) => player.name.toLowerCase() === item.name.toLowerCase())) return notify("Ese jugador ya está registrado."); data.players.push({ ...item, id: crypto.randomUUID() }); save(); event.target.closest("dialog").close(); event.target.reset(); notify("Jugador registrado correctamente."); });
+    $("#attendance-form").addEventListener("submit", (event) => { event.preventDefault(); const item = formData(event.target); if (+item.present > +item.total) return notify("Los presentes no pueden superar al total convocado."); data.attendance.push({ ...item, id: crypto.randomUUID() }); save(); event.target.closest("dialog").close(); event.target.reset(); notify("Jornada guardada correctamente."); });
+    $("#match-form").addEventListener("submit", (event) => { event.preventDefault(); const item = formData(event.target); data.matches.push({ ...item, id: crypto.randomUUID() }); save(); event.target.closest("dialog").close(); event.target.reset(); notify("Partido programado correctamente."); });
+    document.addEventListener("click", (event) => { const player = event.target.closest(".delete-player"); const match = event.target.closest(".delete-match"); if (player && confirm("¿Eliminar este jugador?")) { data.players = data.players.filter((item) => item.id !== player.dataset.id); save(); notify("Jugador eliminado."); } if (match && confirm("¿Eliminar este partido?")) { data.matches = data.matches.filter((item) => item.id !== match.dataset.id); save(); notify("Partido eliminado."); } });
+    $("#export-data").addEventListener("click", () => { const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "grand-line-football-respaldo.json"; link.click(); URL.revokeObjectURL(link.href); notify("Copia de datos descargada."); });
+    render();
+  </script>
+</body>
+</html>
